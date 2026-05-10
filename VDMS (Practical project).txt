@@ -1,0 +1,149 @@
+####parking database management system
+
+print("WELCOME TO VEHICLE MANAGEMENT SYSTEM")
+import mysql.connector
+mydb=mysql.connector.connect(host="localhost",user="root",password="mithmysql14",database='parking') 
+mycursor=mydb.cursor()
+def Add_Record():
+    Payment=0
+    L=[]
+    park_no=int(input("Enter the parking number:"))
+    L.append(park_no)
+    park_name=input("Enter the Parking Name:")
+    L.append(park_name)
+    block=input("Enter the parking level/block:")
+    L.append(block)
+    freespace=input("Is there any freespace? (yes/no):")
+    L.append(freespace)
+    v_no=int(input("Enter the vehicle number:"))
+    L.append(v_no)
+    Days=int(input("Enter total days of parking:"))
+    L.append(Days)
+    if Days==1:
+        Payment=10
+    elif Days==2:
+        Payment=30
+    elif Days==3:
+        Payment=50
+    elif Days==4:
+        Payment=70
+    elif Days==5:
+        Payment=90
+    elif Days==6:
+        Payment=140
+    L.append(Payment)
+    stud=(L)
+    sql='insert into park_details(park_no,park_name,block,freespace,v_no,Days,Payment)values(%s,%s,%s,%s,%s,%s,%s)'
+    mycursor.execute(sql,stud)
+    mydb.commit()
+    print("Parking details are added successfully\n")
+    
+    
+def view_park_details():
+    print("Select any one of the below options:")
+    print("1.Parking Number")
+    print("2.Parking Name")
+    print("3.Level/Block No")
+    print("4.All")
+
+    choice=int(input("Enter your choice:"))
+    if choice==1:
+        s=input("Enter Parking no:")
+        rl=(s,)
+        sql="select * from park_details where park_no=%s"
+        mycursor.execute(sql,rl)
+        res=mycursor.fetchall()
+        print(res[0])
+    elif choice==2:
+        s=input("Enter Parking Name : ")
+        rl=(s,)
+        sql="select * from park_details where park_name=%s"
+        mycursor.execute(sql,rl)
+        res=mycursor.fetchall()
+        for x in res:
+            print(x)
+    elif choice==3:
+        s=input("Enter Parking level or block:")
+        rl=(s,)
+        sql="select * from park_details where block=%s"
+        mycursor.execute(sql,rl)
+        res=mycursor.fetchall()
+        for x in res:
+            print(x)
+    elif choice==4:
+        sql="select * from park_details"
+        mycursor.execute(sql)
+        res=mycursor.fetchall()
+        print("Details about Parking are as follows : ")
+        print("(Parking Id,ParkingName,Level,FreeSpace(Y/N),Vehicle No,No of days for parking,Payment)")
+        for x in res:
+            print(x)
+    print('Task completed!!!!\n')
+    
+    
+def Vehicle_Add():
+    L=[]
+    veh_no=input("Enter Vehicle No : ")
+    L.append(veh_no)
+    vehmod_name=input("Enter Vehicle Name/Model Name: ")
+    L.append(vehmod_name)
+    Date=input("Enter Date-Month-Year of purchase:(like--> '1/1/2023'):")
+    L.append(Date)
+    veh_details=(L)
+    sql="insert into vehicle(veh_no,vehmod_name,Date) values(%s,%s,%s)"
+    mycursor.execute(sql,veh_details)
+    mydb.commit()
+    print("Vehicle details are successfully added\n")
+    
+
+def view_vehicle_details():   
+    veh_no=int(input("Enter the vehicle number of the vehicle whose details is to be viewed : "))
+    sql="select park_details.park_no,park_details.park_name,park_details.v_no,vehicle.vehmod_name from park_details INNER JOIN vehicle ON park_details.v_no=vehicle.veh_no and vehicle.veh_no=%s"
+    rl=(veh_no,)
+    print('The following are the detailes you wanted:')
+    mycursor.execute(sql,rl)
+    res=mycursor.fetchall()
+    for x in res:
+        print(x)
+    print('Task compelted!!!\n')
+    
+def remove_vehicle_details():
+    veh_no=int(input("Enter the vehicle number of the vehicle to be deleted : "))
+    rl=(veh_no,)
+    sql="Delete from vehicle where veh_no=%s"
+    mycursor.execute(sql,rl)
+    mydb.commit()
+    print('Removed as per the command:\n')
+    
+    
+def Menu():
+    print("Enter 1 : To Add Parking Detail")
+    print("Enter 2 : To View Parking Detail ")
+    print("Enter 3 : To Add Vehicle Detail ")
+    print("Enter 4 : To Remove Vehicle Record")
+    print("Enter 5 : To see the details of Vehicle")
+    choice=int(input("Please Select An Above Option:"))
+    if choice==1:
+        Add_Record()
+    elif choice==2:
+        view_park_details()
+    elif choice==3:
+        Vehicle_Add()
+    elif choice==4:
+        remove_vehicle_details()
+    elif choice==5:
+        view_vehicle_details()
+    else:
+        print("Enter correct choice....\n")
+    again()
+
+def again():
+    ans=input("DO YOU WANT TO CHANGE OR VIEW ANY DATA(Y/N):")
+    if ans=='Y':
+        Menu()
+    else:
+        print("Thank you!!!!")
+
+again()
+
+#################################################################code_completed###############################################################################
