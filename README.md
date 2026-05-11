@@ -1,6 +1,8 @@
 # VDMS — Vehicle Database Management System 🚘 
 
-I wanted to keep this here so badly lol — found it while cleaning my laptop and it instantly brought back so many memories 😭
+#Just an old school project… but this is where everything started :)
+
+I wanted to keep this here so badly lol... found it while cleaning my laptop and it instantly brought back so many memories 😭
 This was one of my first ever projects and honestly seeing it again made me weirdly happy. Back then life felt so simple, just trying to make the project run, fixing random errors, and feeling like a genius whenever something finally worked. I still remember how excited I was while making this without even realizing there was a HUGE world of tech ahead of me. At that time this project felt like the biggest thing ever.
 
 Now looking back at it:
